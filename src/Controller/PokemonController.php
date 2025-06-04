@@ -7,7 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PokemonController extends AbstractController{
 
-    #[Route("/pokemon")]
+    #[Route("/pokemon", name:"getPokemon")]
     public function getPokemon(){
 
         $pokemon =[
@@ -20,7 +20,7 @@ class PokemonController extends AbstractController{
         return $this->render("Pokemon/pokemon.html.twig",["pokemon"=>$pokemon]);
     }
 
-    #[Route("/pokemons")]
+    #[Route("/pokemons", name:"listPokemons")]
     public function listPokemons(){
 
         $pokemons = [
