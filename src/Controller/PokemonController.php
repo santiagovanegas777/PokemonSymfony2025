@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+
+use App\Entity\Debilidad;
 use App\Entity\Pokemon;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,9 +56,31 @@ class PokemonController extends AbstractController{
         $pokemon3->setImage("https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/067.png");
         $pokemon3->setCode("16");
 
+        $debilidad1= new Debilidad();
+        $debilidad1->setName("Fuego");
+
+        $debilidad2= new Debilidad();
+        $debilidad2->setName("Agua");
+
+        $debilidad3= new Debilidad();
+        $debilidad3->setName("Hipnosis");
+
+        $debilidad4= new Debilidad();
+        $debilidad4->setName("Eléctrico");
+
+        $pokemon3->addDebilidade($debilidad2);
+        $pokemon3->addDebilidade($debilidad4);
+
+        $pokemon1->addDebilidade($debilidad1);
+
+
         $doctrineSanti->persist($pokemon1);
         $doctrineSanti->persist($pokemon2);
         $doctrineSanti->persist($pokemon3);
+        $doctrineSanti->persist($debilidad1);
+        $doctrineSanti->persist($debilidad2);
+        $doctrineSanti->persist($debilidad3);
+        $doctrineSanti->persist($debilidad4);
 
         $doctrineSanti->flush();
 
