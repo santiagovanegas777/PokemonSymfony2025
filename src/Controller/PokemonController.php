@@ -44,6 +44,35 @@ class PokemonController extends AbstractController{
 
     }
 
+     #[Route("/edit/pokemon/{id}", name:"editPokemon")]
+    public function editPokemon(EntityManagerInterface $doctrine, Request $request, $id){
+
+
+        $repository = $doctrine->getRepository(Pokemon::class);
+        $pokemon = $repository->find($id);
+
+        $form=$this-> createForm(PokemonTypeForm::class, $pokemon);
+        $form->handleRequest($request);
+        if($form->isSubmitted()&& $form->isValid()){
+
+            // $pokemon=$form->getData();
+            // if($pokemonImage){
+
+            // }
+
+            $pokemonImage = $form->get('pokemonImage')->getData();
+
+            $doctrine->persist($pokemon);
+            $doctrine->flush();
+            return $this->redirectToRoute('listPokemons');
+
+        }
+
+        return $this->render("Pokemon/insertPokemon.html.twig", ["pokemonForm"=>$form]);
+
+
+    }
+
     #[Route("/pokemons", name:"listPokemons")]
     public function listPokemons(EntityManagerInterface $doctrineSanti){
 
@@ -108,5 +137,8 @@ class PokemonController extends AbstractController{
 
         return new Response("pokemons insertados correctamente");
     }
+
+
+
 
 }

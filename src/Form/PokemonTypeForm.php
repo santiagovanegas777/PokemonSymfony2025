@@ -6,6 +6,7 @@ use App\Entity\Debilidad;
 use App\Entity\Pokemon;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,19 +24,22 @@ class PokemonTypeForm extends AbstractType
                 'label' => 'Descripción',
                 'attr' => ['placeholder'=>'Pon aqui la descripción']
             ])
-            ->add('image',null,[
-                'label'=>'Imagen',
-                'attr' => ['placeholder'=>'Pon aqui la imagen']
+            ->add('pokemonImage',FileType::class,[
+                 "label" => 'imagen',
+                "mapped" => false
+
+
             ])
             ->add('code',null,[
                 'label'=>'Código',
                 'attr' => ['placeholder'=>'Pon aqui el código']
             ])
-            // ->add('debilidades', EntityType::class, [
-            //     'class' => Debilidad::class,
-            //     'choice_label' => 'id',
-            //     'multiple' => true,
-            // ])
+            ->add('debilidades', EntityType::class, [
+                'class' => Debilidad::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+                'expanded' => true
+            ])
             ->add('Submit', SubmitType::class)
         ;
     }
