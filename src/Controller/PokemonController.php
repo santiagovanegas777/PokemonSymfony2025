@@ -32,6 +32,19 @@ class PokemonController extends AbstractController{
         if($form->isSubmitted()&& $form->isValid()){
 
             $pokemon=$form->getData();
+             $pokemonImage = $form->get('pokemonImage')->getData();
+            if($pokemonImage){
+
+                $newFilename = uniqid().'.'.$pokemonImage->guessExtension();
+
+                $pokemonImage->move($this->getParameter('kernel.project_dir').'/public/images',
+                $newFilename
+
+            );
+
+                $pokemon->setImage("/images/$newFilename");
+             }
+
 
             $doctrine->persist($pokemon);
             $doctrine->flush();
@@ -55,12 +68,9 @@ class PokemonController extends AbstractController{
         $form->handleRequest($request);
         if($form->isSubmitted()&& $form->isValid()){
 
-            // $pokemon=$form->getData();
-            // if($pokemonImage){
+            $pokemon=$form->getData();
 
-            // }
 
-            $pokemonImage = $form->get('pokemonImage')->getData();
 
             $doctrine->persist($pokemon);
             $doctrine->flush();
