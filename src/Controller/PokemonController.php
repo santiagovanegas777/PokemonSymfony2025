@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\Debilidad;
 use App\Entity\Pokemon;
 use App\Form\PokemonTypeForm;
+use App\Manager\PokemonManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +26,7 @@ class PokemonController extends AbstractController{
     }
 
      #[Route("/insert/pokemon", name:"insertPokemon")]
-    public function insertPokemon(EntityManagerInterface $doctrine, Request $request){
+    public function insertPokemon(EntityManagerInterface $doctrine, Request $request, PokemonManager $manager){
 
         $form=$this-> createForm(PokemonTypeForm::class);
         $form->handleRequest($request);
@@ -35,14 +36,13 @@ class PokemonController extends AbstractController{
              $pokemonImage = $form->get('pokemonImage')->getData();
             if($pokemonImage){
 
-                $newFilename = uniqid().'.'.$pokemonImage->guessExtension();
+               $imageUrl = $manager->uploadImage($pokemonImage, $this->getParameter('kernel.project_dir').'/public/images');
 
-                $pokemonImage->move($this->getParameter('kernel.project_dir').'/public/images',
-                $newFilename
 
-            );
 
-                $pokemon->setImage("/images/$newFilename");
+            //sustuiriamos el "move"  por el upload a cloudinary
+
+                $pokemon->setImage($imageUrl);
              }
 
 
