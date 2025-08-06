@@ -42,4 +42,30 @@ class UserController extends AbstractController{
 
     }
 
+
+     #[Route("/insert/admin", name:"insertAdmin")]
+    public function insertAdmin(EntityManagerInterface $doctrine, Request $request,UserPasswordHasherInterface $encrypted){
+
+        $form=$this-> createForm(UserTypeForm::class);
+        $form->handleRequest($request);
+        if($form->isSubmitted()&& $form->isValid()){
+
+            $user=$form->getData();
+            $password=$user->getPassword();
+            $passwordEncrypted = $encrypted->hashPassword($user,$password);
+            $user->setPassword($passwordEncrypted);
+            $user->setRoles(["ROLE_ADMIN","ROLE_USER"]);
+
+            $doctrine->persist($user);
+            $doctrine->flush();
+            return $this->redirectToRoute('listPokemons');
+
+        }
+
+        return $this->render("Pokemon/insertPokemon.html.twig", ["pokemonForm"=>$form]);
+
+
+    }
+
+
 }

@@ -11,11 +11,11 @@
                         <h5 class="card-title">{{ pokemon.name }}</h5>
                         <p class="card-text">{{ pokemon.description }}</p>
                         <a href="{{path('getPokemon', {'id':pokemon.id})}}" class="btn btn-primary">Más Info</a>
-                        <a href="{{path('editPokemon', {'id':pokemon.id})}}" class="btn btn-primary">Editar</a>
-                        {# {% if is_granted("ROLE_ADMIN")%}
-                        <a href="{{ path('editPokemon', {'id': pokemon.code}) }}" class="btn
+
+                         {% if is_granted("ROLE_ADMIN")%}
+                        <a href="{{ path('editPokemon', {'id': pokemon.id}) }}" class="btn
                         btn-primary">Editar</a>
-                        {% endif %} #}
+                        {% endif %} 
                     </div>
                 </div>
             </div>
